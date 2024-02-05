@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="autor" content="Montaño León, Peña Aparicio">
+    <meta name="description" cotent="Graficación de las coordenadas">
+    <meta name="keywords" content="Grafica, funciones inversas, funciones subyectivas">
+    <title>Coordenadas</title>
+    <link rel="icon" href="IMG/Bulldog_ARK.gif">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</head>
+<body bgcolor="#ffe4c4">
+    <img src="IMG/UESMA_LOGO.png" alt="Logo" title="UEFMA" width="75" height="75" style="position: absolute;top: 0; right: 0;">
+    <h1><center>FUNCIONES CON BASE 64 Y SUS INVERSAS</center></h1>
+    <hr size="5px" color="black"/>
+    <div style="display: flex; justify-content: space-around;">
+        <div style="width: 50%;">
+            <canvas id="myChart" width="60" height="60"></canvas>
+        </div>
+        <img id="myImage" src="IMG/Base64.png" alt="BASE64" title="BASE64" style="width: 35%; height: auto; display: none;">
+    </div><br>
+    <center><button onclick="toggleImage()" style="border-radius: 12px;">Mostrar/Ocultar</button></center>
+    <form id="coordForm">
+        <img src="IMG/Bulldog_ARK.gif" alt="ARK" title="HOLAAAAAAAAAAA" width="300" height="250" style="position: absolute;; right: 0;"><br><center><h2>coordenadas</h2></center>
+        <center><label for="x">X:</label><br>
+        <input type="text" id="x" name="x"><br>
+        <label for="y">Y:</label><br>
+        <input type="text" id="y" name="y"><br>
+        <br>
+        <input type="submit" value="Ingresar coordenadas" style="transition: background-color 0.5s ease; background-color: red;" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='red';"></center><br>
+        <p style="position: absolute; right: 0"><b>Se recomienda reservar sus preguntas</b></p>
+        <a href="ARCHIVOS/INFORME.pdf"><p style="position: absolute; left: 0"><b>--INFORME--</b></p></a>
+        <hr size="5px" color="black"/>
+    </form>
+
+    <script>
+        function base64ToDecimal(base64String) {
+            var digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+            var result = 0;
+            for (var i = 0; i < base64String.length; i++) {
+                result = result * 64 + digits.indexOf(base64String[i]);
+            }
+            return result;
+        }
+
+        const xValues =[10, 20, 30, 40, 50];
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Linea para X',
+                    data: [{x: -60, y: 0}, {x: 60, y: 0}],
+                    borderColor: 'black',
+                    borderWidth: 2,
+                    fill: true
+                }, {
+                    label: 'Linea para Y',
+                    data: [{x: 0, y: -60}, {x: 0, y: 60}],
+                    borderColor: 'black',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom',
+                        ticks:{
+                            min:-60,
+                            max:60,
+                            stepSize :5
+                        }
+                    }],
+                    yAxes:[{
+                        ticks:{
+                            min:-60,
+                            max:60,
+                            stepSize :5
+                        }
+                    }]
+                }
+            }
+        });
+
+        document.getElementById('coordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var x = base64ToDecimal(document.getElementById('x').value);
+            var y = base64ToDecimal(document.getElementById('y').value);
+            chart.data.datasets.push({
+                label: 'Punto (' + x + ', ' + y + ')',
+                data: [{x: x, y: y}],
+                borderColor: 'blue',
+                borderWidth: 5,
+                fill: false,
+                pointRadius: 3
+                
+            });
+            chart.update();
+        });
+
+        function toggleImage() {
+            var image = document.getElementById('myImage');
+            if (image.style.display === "none") {
+                image.style.display = "block";
+            } else {
+                image.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
